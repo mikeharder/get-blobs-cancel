@@ -5,7 +5,6 @@ namespace GetBlobsCancel
     internal class Program
     {
         // Config
-        private const string ContainerName = "samples";
         private const int MinDelayMilliseconds = 1;
         private const int MaxDelayMilliseconds = 20;
 
@@ -14,7 +13,10 @@ namespace GetBlobsCancel
             var connectionString = Environment.GetEnvironmentVariable("STORAGE_CONNECTION_STRING") ??
                 throw new InvalidOperationException("STORAGE_CONNECTION_STRING not set");
 
-            var containerClient = new BlobContainerClient(connectionString, ContainerName);
+            var containerName = Environment.GetEnvironmentVariable("STORAGE_CONTAINER_NAME") ??
+                throw new InvalidOperationException("STORAGE_CONTAINER_NAME not set");
+
+            var containerClient = new BlobContainerClient(connectionString, containerName);
 
             var random = new Random();
             while (true)
